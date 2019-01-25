@@ -16,7 +16,11 @@ class AdminRedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if(Auth::guard('admin')->check()){
-            return response()->view('home');
+            // dd('redirect');
+            return response()->view('management.homeAdmin');
+            // return redirect()->route('user.index');
+            // return new RedirectResponse(url('/user'));
+            // return redirect('admin/user');
         }
         return $next($request);
     }

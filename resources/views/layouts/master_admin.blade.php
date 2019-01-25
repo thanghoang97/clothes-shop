@@ -20,11 +20,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('admin_assets/dist/css/AdminLTE.min.css')}}">
   <link rel="stylesheet" href="{{asset('admin_assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
-  <link rel="next" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
   <link rel="stylesheet" href="{{asset('admin_assets/dist/css/skins/skin-blue.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <link href="{{asset('smart_wizard/dist/css/smart_wizard.css')}}" rel="stylesheet" type="text/css" /> 
+  <link href="{{asset('smart_wizard/dist/css/smart_wizard_theme_arrows.css')}}" rel="stylesheet" type="text/css" /> 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{{asset('drop_zone/dist/dropzone.css')}}">
   <script src="{{asset('admin_assets/bower_components/jquery/dist/jquery.min.js')}}"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -215,7 +220,7 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="{{asset('admin_assets/dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">{{ Auth::user()->name }}</span>
+              <span class="hidden-xs"></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -223,7 +228,7 @@ desired effect
                 <img src="{{asset('admin_assets/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
 
                 <p>
-                  {{ Auth::user()->name }} - Web Developer
+                   - Web Developer
                   <small>Member since Nov. 2012</small>
                 </p>
               </li>
@@ -280,7 +285,7 @@ desired effect
           <img src="{{asset('admin_assets/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>{{ Auth::user()->name }}</p>
+          <p></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -303,20 +308,21 @@ desired effect
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
         {{-- <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li> --}}
-        {{-- <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> --}}
-        <li class="treeview">
+        <li><a href="/admin/user"><i class="fa fa-link"></i> <span>User</span></a></li>
+        <li><a href="/admin/category"><i class="fa fa-link"></i> <span>Category</span></a></li>
+        {{-- <li class="treeview">
           <a ><i class="fa fa-link"></i> <span>Management</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
-            {{-- <li><a href="">Posts</a></li>
-            <li><a href="">Tags</a></li>
-            <li><a href="">Categories</a></li> --}}
+            <li><a href="">Posts</a></li> --}}
+            {{-- <li><a href="">Tags</a></li> --}}
+            {{-- <li><a href="">Categories</a></li>  --}}
             {{-- <li><a href="#">Link in level 2</a></li> --}}
           </ul>
-        </li>
+        </li> 
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -434,15 +440,22 @@ desired effect
 <!-- AdminLTE App -->
 <script src="{{asset('admin_assets/dist/js/adminlte.min.js')}}"></script>
 <script src="https://cdn.ckeditor.com/4.11.1/full-all/ckeditor.js"></script>
-<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="{{asset('admin_assets/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+{{-- <script src="{{asset('admin_assets/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script> --}}
 <script src="{{asset('admin_assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript" src="{{asset('smart_wizard/dist/js/jquery.smartWizard.min.js')}}"></script>
+{{-- <script type="text/javascript" src="{{asset('price_format/dist/jquery.priceformat.js')}}"></script> --}}
+<script type="text/javascript" src="{{asset('price_format/jquery.masknumber.js')}}"></script>
+{{-- <script type="text/javascript" src="{{asset('price_format/dist/simple.money.format.js')}}"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script type="text/javascript" src="{{asset('drop_zone/dist/dropzone.js')}}"></script>
   <script>
+    // Dropzone.autoDiscover = false;
     CKEDITOR.replace( 'content' );
     CKEDITOR.config.autoParagraph = false;
     CKEDITOR.instances.ckdemo.document.getBody().getText();
-    
   </script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

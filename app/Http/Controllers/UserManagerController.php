@@ -2,34 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
+
 use Illuminate\Http\Request;
 use App\User;
 use Datatables;
-class UserAdminController extends Controller
+use Validator;
+
+class UserManagerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('admin.auth');
     }
     
     public function index()
     {   
-        $i=1;
-        return view('management.listUser',compact('i'));
+        return view('management.listUser');
     }
-
-    public function getdata(){
-        // dd('test');
-        // $users = User::select(['id', 'name', 'email'])->get();
-        // dd($users);
-        // return Datatables::of($users)->make(true);
-    }
+    function getdata()
+    {
+       $users = User::select('id', 'name', 'username','email');
+       return Datatables::of($users)
+       ->addColumn('action', function($user){
+        return '<a class="btn btn-warning btn-edit" data-id="'.$user->id.'"​><i class="fa fa-pencil" aria-hidden="true"></i></a>
+        <button type="button" class="btn btn-info btn-show" data-id="'.$user->id.'"​><i class="fa fa-eye" aria-hidden="true"></i></button>
+        <button class="btn btn-danger btn-delete" data-id="'.$user->id.'"​><i class="fa fa-times" aria-hidden="true"></i></button>';
+    })->make(true);
+   }
 
     /**
      * Show the form for creating a new resource.
@@ -86,10 +85,16 @@ class UserAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
+        $id = $request->input('id');
         $user = User::find($id);
-        return response()->json(['data' => $user]);
+        $output = array(
+            'name'    =>  $user->name,
+            'username'     =>  $user->username,
+            'email'     =>  $user->email,
+        );
+        echo json_encode($output);
     }
 
     /**
@@ -98,10 +103,18 @@ class UserAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
+        $id = $request->input('id');
         $user = User::find($id);
-        return response()->json(['data'=>$user]);
+        $output = array(
+            'id' => $user->id,
+            'name'    =>  $user->name,
+            'username'     =>  $user->username,
+            'email'     =>  $user->email,
+            'description'     =>  $user->description,
+        );
+        echo json_encode($output);
     }
 
     /**
@@ -111,15 +124,15 @@ class UserAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id,Request $request)
     {
         $messages = [
             'required' => 'Trường :attribute bắt buộc nhập.',
         ];
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'username' => 'required|unique:users',
-            'email' => 'required|email|unique:users',
+            'username' => 'required|unique:users,username,'.$request->id,
+            'email' => 'required|email|unique:users,email,'.$request->id,
             'password' => 'required_with:password|confirmed',
         ],$messages);
         $errors = array();
@@ -147,9 +160,12 @@ class UserAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $user = User::find($id)->delete();
-        return response()->json(['data'=>'removed']);
+        $user = User::find($request->input('id'));
+        if($user->delete())
+        {
+            echo 'Data Deleted';
+        }
     }
 }

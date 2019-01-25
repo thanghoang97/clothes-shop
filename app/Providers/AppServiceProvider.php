@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use App\User;
+use App\Category;
+use App\Size;
+use App\Color;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -17,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
         // Schema::defaultStringLength(191);
         if(!\App::runningInConsole()){
             view::share('users', User::all());
+            view::share('categories', Category::all());  
+            view::share('sizes', Size::all());  
+            view::share('colors', Color::all());  
         }
     }
 

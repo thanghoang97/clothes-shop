@@ -4,19 +4,19 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="" style="margin: 0;font-size: 26px;">List User</h3>
+                <h3 class="" style="margin: 0;font-size: 26px;">List Category</h3>
                 <div class="clearfix"></div>
-                <a href="#add" class="btn btn-success" style="margin:10px 0px;" data-toggle="modal">Add new User</a>    
+                <a href="#add" class="btn btn-success" style="margin:10px 0px;" data-toggle="modal">Add new Category</a>    
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <table id="user_table" class="display">
+                <table id="cate_table" class="display">
                     <thead>
                         <tr>
                             <th>Id.</th>
                             <th>Name</th>
-                            <th>Username</th>
-                            <th>Email</th>
+                            <th>Slug</th>
+                            <th>Description</th>
                             <th>#</th>
                         </tr>
                     </thead>
@@ -31,35 +31,27 @@
 <div class="modal fade" id="add">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST" class="" role="form" id="user_add" data-url="{{route('user.store')}}">
+            <form method="POST" class="" role="form" id="cate_add" data-url="{{route('cate.store')}}">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>            
                 </div>
                 <div class="modal-body">
-                    <h2 style="text-align: center;">User:</h2>
+                    <h2 style="text-align: center;">Category:</h2>
                     @csrf
-                    <div id="user-error-add" style="text-align: center;">
+                    <div id="cate-error-add" style="text-align: center;">
 
                     </div>
                     <div class="form-group">
                         <label for="">Name</label>
-                        <input name="name" type="text" class="form-control" id="user_add_name" placeholder="Enter Name">
+                        <input name="name" type="text" class="form-control" id="cate_add_name" placeholder="Enter Name">
                     </div>
                     <div class="form-group">
-                        <label for="">Username</label>
-                        <input name="username" type="text" class="form-control" id="user_add_username" placeholder="Enter Username">
+                        <label for="">Slug</label>
+                        <input name="slug" type="text" class="form-control" id="cate_add_slug" placeholder="Slug" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="">Email</label>
-                        <input name="email" type="email" class="form-control" id="user_add_email" placeholder="Enter Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Password</label>
-                        <input name="password" type="password" class="form-control" id="user_add_password" placeholder="Enter Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Password-Confirm</label>
-                        <input name="password_confirmation" type="password" class="form-control" id="user_add_password_confirm" placeholder="Enter Password Confirm">
+                        <label for="">Description</label>
+                        <input name="description" type="text" class="form-control" id="cate_add_description" placeholder="Enter Description">
                     </div>
                     <div class="form-group">
                         <div class="">
@@ -79,22 +71,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">User Detail</h4>
+                <h4 class="modal-title">Category Detail</h4>
             </div>
             <div class="modal-body" style="text-align: center;">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th style="text-align: center;">Name</th>
-                            <th style="text-align: center;">Username</th>
-                            <th style="text-align: center;">Email</th>  
+                            <th style="text-align: center;">Slug</th>
+                            <th style="text-align: center;">Description</th>  
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td id="user_name"></td>
-                            <td id="user_username"></td>
-                            <td id="user_email"></td>
+                            <td id="cate_name"></td>
+                            <td id="cate_slug"></td>
+                            <td id="cate_description"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -109,36 +101,28 @@
     <div class="modal-dialog">
         <div class="modal-content">
 
-            <form action=""​ id="user_form_edit" method="POST" role="form">
+            <form action=""​ id="cate_form_edit" method="POST" role="form">
                 {{ csrf_field() }}
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Edit User</h4>
+                    <h4 class="modal-title">Edit Category</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="user-error-edit">
+                    <div id="cate-error-edit">
 
                     </div>
                     <div class="form-group">
                         <label for="">Name</label>
-                        <input name="name" type="text" class="form-control" id="user_edit_name" placeholder="Enter Name">
+                        <input name="name" type="text" class="form-control" id="cate_edit_name" placeholder="Enter Name">
                     </div>
                     <div class="form-group">
-                        <label for="">Username</label>
-                        <input name="username" type="text" class="form-control" id="user_edit_username" placeholder="Enter Username">
+                        <label for="">Slug</label>
+                        <input name="slug" type="text" class="form-control" id="cate_edit_slug" placeholder="Enter Slug" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="">Email</label>
-                        <input name="email" type="email" class="form-control" id="user_edit_email" placeholder="Enter Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Password</label>
-                        <input name="password" type="password" class="form-control" id="user_edit_password" placeholder="Enter Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Password-Confirm</label>
-                        <input name="password_confirmation" type="password" class="form-control" id="user_edit_password_confirm" placeholder="Enter Password Confirm">
+                        <label for="">Description</label>
+                        <input name="description" type="text" class="form-control" id="cate_edit_description" placeholder="Enter Description">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -158,19 +142,19 @@
     });
     // $('#table_id').DataTable();
     $(document).ready( function () {
-     $('#user_table').DataTable({
+     $('#cate_table').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{ route('user.getdata') }}",
+        "ajax": "{{ route('cate.getdata') }}",
         "columns":[
         { "data": "id" },
         { "data": "name" },
-        { "data": "username" },
-        { "data": "email" },
+        { "data": "slug" },
+        { "data": "description" },
         { "data": "action", orderable:false, searchable: false}
         ]
     });
-     $('#user_add').submit(function(event) {
+     $('#cate_add').submit(function(event) {
         event.preventDefault();
         var url=$(this).attr('data-url');
         console.log(url);
@@ -185,36 +169,34 @@
                     for(var i=0;i<response.errors.length;i++){
                        alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
                    }
-                   $('#user-error-add').html(alert);
+                   $('#cate-error-add').html(alert);
                    setTimeout(function () {
                     $('.err').remove();
                 },5000);
                }else{
                 console.log('thanhcong');
-                $('#user_add_name').val('');
-                $('#user_add_username').val(''),
-                $('#user_add_email').val(''),
-                $('#user_add_password').val(''),
-                $('#user_add_password_confirm').val('') 
+                $('#cate_add_name').val('');
+                $('#cate_add_slug').val('');
+                $('#cate_add_description').val('');
                 $('#add').modal('hide');
                 toastr.success('them moi thanh cong');
-                $('#user_table').DataTable().ajax.reload();
+                $('#cate_table').DataTable().ajax.reload();
             }
         },
     });
     });
-     $("#user_table").on('click','.btn-delete',function(){
+     $("#cate_table").on('click','.btn-delete',function(){
         var id = $(this).attr('data-id');
         if(confirm("Are you sure you want to Delete this data?"))
         {
             $.ajax({
-                url:"{{route('user.destroy')}}",
+                url:"{{route('cate.destroy')}}",
                 mehtod:"get",
                 data:{id:id},
                 success:function(data)
                 {
                     toastr.success('Xoa thanh cong');
-                    $('#user_table').DataTable().ajax.reload();
+                    $('#cate_table').DataTable().ajax.reload();
                 }
             })
         }
@@ -223,47 +205,47 @@
             return false;
         }
     });
-     $("#user_table").on('click', '.btn-show', function() {
+     $("#cate_table").on('click', '.btn-show', function() {
         event.preventDefault();
         $('#modal-show').modal('show');
         /* Act on the event */
         var id = $(this).attr('data-id');
         $.ajax({
-            url:"{{route('user.show')}}",
+            url:"{{route('cate.show')}}",
             type: 'GET',
             data:{id:id},
             dataType:'json',
             success: function(response){
                 console.log(response);
-                $("#user_name").html(response.name);
-                $("#user_username").html(response.username);
-                $("#user_email").html(response.email);
+                $("#cate_name").html(response.name);
+                $("#cate_slug").html(response.slug);
+                $("#cate_description").html(response.description);
             },
         })
     });
         //bắt sự kiện click vào nút edit
-        $("#user_table").on('click', '.btn-edit', function(e) {
+        $("#cate_table").on('click', '.btn-edit', function(e) {
         //mở modal edit lên
         $('#modal-edit').modal('show');
         e.preventDefault();
         var id = $(this).attr("data-id");
         console.log(id);
         $.ajax({
-            url:"{{route('user.edit')}}",
+            url:"{{route('cate.edit')}}",
             method:'get',
             data:{id:id},
             dataType:'json',
             success: function (response) {
                 console.log(response);
-                $('#user_edit_name').val(response.name);
-                $('#user_edit_username').val(response.username),
-                $('#user_edit_email').val(response.email),
-                $('#user_form_edit').attr('data-url','{{ asset('admin/user/') }}/'+response.id)
+                $('#cate_edit_name').val(response.name);
+                $('#cate_edit_slug').val(response.slug),
+                $('#cate_edit_description').val(response.description),
+                $('#cate_form_edit').attr('data-url','{{ asset('admin/category/') }}/'+response.id)
             },
         })
     })
       //bắt sự kiện submit form edit
-      $('#user_form_edit').submit(function (e) {
+    $('#cate_form_edit').submit(function (e) {
         e.preventDefault();
         //lấy data-url của form edit
         var url=$(this).attr('data-url');
@@ -279,7 +261,7 @@
                 for(var i=0;i<response.errors.length;i++){
                    alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
                }
-               $('#user-error-edit').html(alert);
+               $('#cate-error-edit').html(alert);
                setTimeout(function () {
                 $('.err').remove();
             },5000);
@@ -288,14 +270,52 @@
             toastr.success('edit success!')
                 //ẩn modal edit
                 $('#modal-edit').modal('hide');
-                $('#user_table').DataTable().ajax.reload();
+                $('#cate_table').DataTable().ajax.reload();
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             //xử lý lỗi tại đây
         }
     })
-    })    
+    })
+    function toSlug (title) {
+         var slug;
+        //Đổi chữ hoa thành chữ thường
+        slug = title.toLowerCase();
+        //Đổi ký tự có dấu thành không dấu
+        slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+        slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+        slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+        slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+        slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+        slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+        slug = slug.replace(/đ/gi, 'd');
+        //Xóa các ký tự đặt biệt
+        slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+        //Đổi khoảng trắng thành ký tự gạch ngang
+        slug = slug.replace(/ /gi, "-");
+        //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+        //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+        slug = slug.replace(/\-\-\-\-\-/gi, '-');
+        slug = slug.replace(/\-\-\-\-/gi, '-');
+        slug = slug.replace(/\-\-\-/gi, '-');
+        slug = slug.replace(/\-\-/gi, '-');
+        //Xóa các ký tự gạch ngang ở đầu và cuối
+        slug = '@' + slug + '@';
+        slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+        //In slug ra textbox có id “slug”
+        return slug;
+    }
+    $('#cate_add_name').keyup(function (argument) {
+        var title = $('#cate_add_name').val();
+        var slug = toSlug(title);
+        $('#cate_add_slug').val(slug);
+    });
+    $('#cate_edit_name').keyup(function (argument) {
+        var title = $('#cate_edit_name').val();
+        var slug = toSlug(title);
+        $('#cate_edit_slug').val(slug);
+    });
 
   } );
 
