@@ -19,7 +19,7 @@ class CreateProductDetailTable extends Migration
             $table->integer('quantity')->unsigned();
             $table->integer('sold')->unsigned();
             $table->integer('color_id')->unsigned();
-            $table->string('size');
+            $table->integer('size_id')->unsigned();
             $table->timestamps();
         });
     }

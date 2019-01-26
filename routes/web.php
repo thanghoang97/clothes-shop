@@ -91,4 +91,10 @@ Route::prefix('/admin')->group(function(){
 
     Route::get('product/getdata','ProductManagerController@getdata')->name('prod.getdata');
     Route::get('product','ProductManagerController@index')->name('prod.index');
+    Route::post('product','ProductManagerController@store')->name('prod.store');
+    Route::get('product/edit','ProductManagerController@edit')->name('prod.edit');
+    Route::put('product/{id}','ProductManagerController@update')->name('prod.update');
+    Route::get('product/destroy', 'ProductManagerController@destroy')->name('prod.destroy');
+    
+
 });  

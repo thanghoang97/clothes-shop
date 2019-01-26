@@ -19,12 +19,12 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description'); 
-            $table->integer('sale_price')->unsigned();
-            $table->integer('price')->unsigned();
+            $table->string('sale_price')->nullable();
+            $table->string('price');
             $table->integer('category_id')->unsigned();
             $table->string('content');
             $table->integer('admin_created_id')->unsigned();
-            $table->integer('admin_updated_id')->unsigned();
+            $table->integer('admin_updated_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

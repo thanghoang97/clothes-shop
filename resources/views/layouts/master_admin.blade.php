@@ -454,6 +454,7 @@ desired effect
   <script>
     // Dropzone.autoDiscover = false;
     CKEDITOR.replace( 'content' );
+    // CKEDITOR.replace( 'edit_content' );
     CKEDITOR.config.autoParagraph = false;
     CKEDITOR.instances.ckdemo.document.getBody().getText();
   </script>
