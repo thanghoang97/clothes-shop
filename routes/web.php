@@ -11,32 +11,24 @@
 |
 */
 
-Route::get('/', function () {
-    // return view('layouts.master');
-    return view('shop.home');
-});
-Route::get('/detail', function () {
-    // return view('layouts.master');
-    return view('shop.detail');
-});
-Route::get('/product', function () {
-    // return view('layouts.master');
-    return view('shop.product');
-});
-Route::get('/login', function () {
-    // return view('layouts.master');
-    return view('shop.login');
-});
-Route::get('/register', function () {
-    // return view('layouts.master');
-    return view('shop.register');
-});
+Route::get('/','ShopController@index')->name('shop.index');
+Route::get('/detail/{slug}','ShopController@detail')->name('shop.detail');
+Route::get('/products','ShopController@products')->name('shop.products');
+// Route::get('/login', function () {
+//     // return view('layouts.master');
+//     return view('shop.login');
+// });
+// Route::get('/register', function () {
+//     // return view('layouts.master');
+//     return view('shop.register');
+// });
+Route::get('/cart','ShopController@cart')->name('shop.cart');
 
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('/user')->group(function(){
-	// Auth::routes();
+	Auth::routes();
 	// Route::resource('user','UserAdminController');
     // Route::get('login', 'Auth\LoginController@showLoginForm');
     // Route::post('login', 'Auth\LoginController@login');
