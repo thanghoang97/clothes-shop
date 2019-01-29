@@ -34,7 +34,7 @@
 									<th class="column-5">Total</th>
 								</tr>
 
-								<tr class="table_row">
+								{{-- <tr class="table_row">
 									<td class="column-1">
 										<div class="how-itemcart1">
 											<img src="{{asset('shop_assets/images/item-cart-04.jpg')}}" alt="IMG">
@@ -56,9 +56,9 @@
 										</div>
 									</td>
 									<td class="column-5">$ 36.00</td>
-								</tr>
+								</tr> --}}
 
-								<tr class="table_row">
+								{{-- <tr class="table_row">
 									<td class="column-1">
 										<div class="how-itemcart1">
 											<img src="{{asset('shop_assets/images/item-cart-05.jpg')}}" alt="IMG">
@@ -80,7 +80,7 @@
 										</div>
 									</td>
 									<td class="column-5">$ 16.00</td>
-								</tr>
+								</tr> --}}
 							</table>
 						</div>
 

@@ -165,7 +165,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="">Content</label>
-                                        <textarea name="edit_content" id="prod_edit_content" required></textarea>
+                                        <textarea name="prod_edit_content" id="prod_edit_content" required></textarea>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -226,8 +226,9 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    
     $(document).ready( function () {
-
+        CKEDITOR.replace('prod_edit_content');
         // js select 2
 
         $('.category').select2({
@@ -265,6 +266,11 @@
         // format number
 
         $('#prod_add_price, #prod_add_sale_price, #prod_add_quantity').maskNumber({
+            integer: true,
+            thousands: ',',
+        });
+
+        $('#prod_edit_price, #prod_edit_sale_price, #prod_edit_quantity').maskNumber({
             integer: true,
             thousands: ',',
         });
@@ -384,7 +390,7 @@
                     $('#prod_edit_slug').val(response.slug);
                     $('#prod_edit_name').val(response.name);
                     $('#prod_edit_description').val(response.description);
-                    $('#prod_edit_content').text(response.content);
+                    // $('#prod_edit_content').text(response.content);
                     $('#prod_edit_sale_price').val(response.sale_price);
                     $('#prod_edit_price').val(response.price);
                     $('#prod_edit_quantity').val(response.quantity);
@@ -401,7 +407,12 @@
                     $('#prod_edit_category').val(response.category).trigger('change');
                     $("#prod_edit_color").val(color).trigger('change');
                     $("#prod_edit_size").val(size).trigger('change');
-                    CKEDITOR.replace( 'edit_content' );
+                    // CKEDITOR.replace( 'edit_content' );
+                    // CKEDITOR.instances['edit_content'].on('change',function(){
+                    //     CKEDITOR.instances['edit_content'].updateElement();
+                    //     CKEDITOR.replace( 'edit_content' );
+                    // });
+                    CKEDITOR.instances['prod_edit_content'].setData(response.content);
                     $('#prod_form_edit').attr('data-url','{{ asset('admin/product/') }}/'+response.id)
                 },
             })
@@ -411,7 +422,7 @@
 
         // update product
 
-            $('#prod_form_edit').submit(function (e) {
+        $('#prod_form_edit').submit(function (e) {
             e.preventDefault();
             //lấy data-url của form edit
             var url=$(this).attr('data-url');
@@ -458,7 +469,7 @@
 
         // delete product
 
-            $("#prod_table").on('click','.btn-delete',function(){
+        $("#prod_table").on('click','.btn-delete',function(){
             var id = $(this).attr('data-id');
             if(confirm("Are you sure you want to Delete this data?"))
             {

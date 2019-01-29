@@ -183,7 +183,7 @@
 			</div>
 			
 			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-cart-wrapitem w-full">
+				{{-- <ul class="header-cart-wrapitem w-full">
 					<li class="header-cart-item flex-w flex-t m-b-12">
 						<div class="header-cart-item-img">
 							<img src="images/item-cart-01.jpg" alt="IMG">
@@ -231,7 +231,7 @@
 							</span>
 						</div>
 					</li>
-				</ul>
+				</ul> --}}
 				
 				<div class="w-full">
 					<div class="header-cart-total w-full p-tb-40">
