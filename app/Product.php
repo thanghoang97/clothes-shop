@@ -13,4 +13,8 @@ class Product extends Model
     {
     	return $this->hasMany('App\ProductDetail');
     }
+    public function category()
+    {
+    	return $this->belongsto('App\Category');
+    }
 }

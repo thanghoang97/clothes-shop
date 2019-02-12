@@ -17,7 +17,7 @@ class CreateProductDetailTable extends Migration
             $table->increments('id');
             $table->string('product_id');
             $table->integer('quantity')->unsigned();
-            $table->integer('sold')->unsigned();
+            $table->integer('sold')->unsigned()->default(0);
             $table->integer('color_id')->unsigned();
             $table->integer('size_id')->unsigned();
             $table->timestamps();

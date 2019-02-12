@@ -56,6 +56,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     .select2-selection__choice{
       background-color: #000!important;
     }
+    .modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+}
   </style>
 {{--   <script>
     $(document).ready( function () {
@@ -310,6 +314,7 @@ desired effect
         {{-- <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li> --}}
         <li><a href="/admin/user"><i class="fa fa-link"></i> <span>User</span></a></li>
         <li><a href="/admin/category"><i class="fa fa-link"></i> <span>Category</span></a></li>
+        <li><a href="/admin/product"><i class="fa fa-link"></i> <span>Product</span></a></li>
         {{-- <li class="treeview">
           <a ><i class="fa fa-link"></i> <span>Management</span>
             <span class="pull-right-container">
@@ -451,6 +456,7 @@ desired effect
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script type="text/javascript" src="{{asset('drop_zone/dist/dropzone.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/dropzone-config.js')}}"></script>
   <script>
     // Dropzone.autoDiscover = false;
     CKEDITOR.replace( 'content' );

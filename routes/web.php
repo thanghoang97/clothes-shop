@@ -14,6 +14,8 @@
 Route::get('/','ShopController@index')->name('shop.index');
 Route::get('/detail/{slug}','ShopController@detail')->name('shop.detail');
 Route::get('/products','ShopController@products')->name('shop.products');
+Route::post('/add2cart/{id}','ShopController@add2cart')->name('shop.add2cart');
+Route::get('/menuCart','ShopController@menuCart')->name('shop.menuCart');
 // Route::get('/login', function () {
 //     // return view('layouts.master');
 //     return view('shop.login');
@@ -34,7 +36,7 @@ Route::prefix('/user')->group(function(){
     // Route::post('login', 'Auth\LoginController@login');
     // Route::post('logout', 'Auth\LoginController@logout');
 
-    
+
  //    Route::post('/getdata', 'UserAdminController@getdata');
 	// Route::get('/index', 'UserAdminController@index');
 });	
@@ -51,8 +53,8 @@ Route::prefix('/admin')->group(function(){
     // });
     Route::get('/home',function(){
         // return view('management.listUser');
-         return view('management.homeAdmin');
-    });
+       return view('management.homeAdmin');
+   });
     Route::get('login', 'AuthAdmin\LoginController@showLoginForm')->name('login');
     Route::post('login', 'AuthAdmin\LoginController@login');
     Route::post('logout', 'AuthAdmin\LoginController@logout')->name('logout');
@@ -88,5 +90,20 @@ Route::prefix('/admin')->group(function(){
     Route::put('product/{id}','ProductManagerController@update')->name('prod.update');
     Route::get('product/destroy', 'ProductManagerController@destroy')->name('prod.destroy');
     
+    /**
+     * Route của PRODUCT DETAIL
+     */
+    Route::get('detail/getdetail/{id}/{btn_id}','ProductDetailManagerController@getDetail')->name('detail.getdetail');
+    Route::post('detail','ProductDetailManagerController@store')->name('detail.store');
+    Route::get('detail/destroy', 'ProductDetailManagerController@destroy')->name('detail.destroy');
+    Route::get('detail/edit','ProductDetailManagerController@edit')->name('detail.edit');
+    Route::put('detail/{id}','ProductDetailManagerController@update')->name('detail.update');
 
+    /**
+     * Upload Multi Dropzone
+     */
+    Route::get('/', 'UploadImagesController@create');
+    Route::post('/images-save', 'UploadImagesController@store');
+    Route::get('/images-delete', 'UploadImagesController@destroy')->name('img.destroy');
+    Route::get('/images-show', 'UploadImagesController@show');
 });  
