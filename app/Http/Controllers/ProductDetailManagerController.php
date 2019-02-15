@@ -15,18 +15,12 @@ class ProductDetailManagerController extends Controller
 {
 	public function getDetail($product_id,$btn_id)
 	{
-		// dd($btn_id);
 		$categories = Category::all();
 		$colors = Color::all();
 		$sizes = Size::all();
 		$details = ProductDetail::where('product_id',$product_id)->get();
-		// array_push($details[0], $btn_id);
-		// $details->setAttribute('btn_id','dsa');
-		// $details->put('btn_id',$btn_id);
-		// dd($details->id);
 		return Datatables::of($details)
 		->addColumn('action',function($details){
-		// dd($details->id);
 			return '
 			<a class="btn btn-warning detail-edit" data-id="'.$details->id.'"​><i class="fa fa-pencil" aria-hidden="true"></i></a>
 			<button class="btn btn-danger detail-delete" data-id="'.$details->id.'"​><i class="fa fa-times" aria-hidden="true"></i></button>';
@@ -48,13 +42,25 @@ class ProductDetailManagerController extends Controller
 	}
 	public function store(Request $request)
 	{
-		$detail = new ProductDetail;
-		// dd($request->all());
-		$detail->product_id = $request->product_id;
-		$detail->quantity = $request->quantity;
-		$detail->size_id = $request->size;
-		$detail->color_id = $request->color;
-		$detail->save();
+		$test = ProductDetail::where([['color_id',$request->color],['size_id',$request->size],['product_id',$request->product_id]])->get();
+		// dd($test[0]->quantity);
+		if(empty($test[0]))
+		{
+			$detail = new ProductDetail;
+			$detail->product_id = $request->product_id;
+			$detail->quantity = $request->quantity;
+			$detail->size_id = $request->size;
+			$detail->color_id = $request->color;
+			$detail->save();
+		}
+		if(!empty($test[0]))
+		{
+			$oldQuantity = $test[0]->quantity;
+			$id = $test[0]->id;
+			$detail = ProductDetail::find($id);
+			$detail->quantity = $oldQuantity + $request->quantity;
+			$detail->update();
+		}
 		return response()->json(['detail' => $detail]);
 	}
 	public function destroy(Request $request)
@@ -70,14 +76,14 @@ class ProductDetailManagerController extends Controller
 	public function edit(Request $request)
 	{
 		// $id = $request->input('id');
-        $detail = ProductDetail::find($request->id);
+		$detail = ProductDetail::find($request->id);
         // dd($detail);
-        $output = array(
-            'quantity'  =>  $detail->quantity,
-            'color' 	=> $detail->color_id,
-            'size'		=> $detail->size_id,
-        );
-        echo json_encode($output);
+		$output = array(
+			'quantity'  =>  $detail->quantity,
+			'color' 	=> $detail->color_id,
+			'size'		=> $detail->size_id,
+		);
+		echo json_encode($output);
 	}
 	public function update(Request $request)
 	{

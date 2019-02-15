@@ -6,36 +6,36 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="{{asset('shop_assets/images/icons/favicon.png')}}"/>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/vendor/bootstrap/css/bootstrap.min.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/fonts/iconic/css/material-design-iconic-font.min.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/fonts/linearicons-v1.0.0/icon-font.min.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/vendor/animate/animate.css')}}">
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->	
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/vendor/css-hamburgers/hamburgers.min.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/vendor/animsition/css/animsition.min.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/vendor/select2/select2.min.css')}}">
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->	
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/vendor/daterangepicker/daterangepicker.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/vendor/slick/slick.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/vendor/MagnificPopup/magnific-popup.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/vendor/perfect-scrollbar/perfect-scrollbar.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/css/util.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('shop_assets/css/main.css')}}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
 
 </head>
@@ -188,26 +188,30 @@
 			
 			<div class="header-cart-content flex-w js-pscroll">
 				<ul class="header-cart-wrapitem w-full" id="menuCart">
+					@if(Cart::content() !== null)
+					@foreach(Cart::content() as $key => $row)
 					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="images/item-cart-01.jpg" alt="IMG">
+						<div class="header-cart-item-img" data-key="{{$key}}">
+							<img src="/images/{{$row->options->img}}" alt="IMG">
 						</div>
 
 						<div class="header-cart-item-txt p-t-8">
 							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-									
+								{{$row->name}}
 							</a>
 
 							<span class="header-cart-item-info">
-								1 x $19.00
+								Size: {{$row->options->size}} - Color: {{$row->options->color}} - ${{$row->price}} - x{{$row->qty}}
 							</span>
 						</div>
 					</li>
+					@endforeach
+					@endif
 				</ul>
 				
 				<div class="w-full">
 					<div class="header-cart-total w-full p-tb-40">
-						Total: $75.00
+						Total: {{Cart::subtotal()}}
 					</div>
 
 					<div class="header-cart-buttons flex-w w-full">
@@ -215,7 +219,7 @@
 							View Cart
 						</a>
 
-						<a href="shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+						<a href="{{route('shop.checkOut')}}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
 							Check Out
 						</a>
 					</div>
@@ -366,8 +370,8 @@
 
 				<p class="stext-107 cl6 txt-center">
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
 				</p>
 			</div>
@@ -382,7 +386,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</span>
 	</div>
 
- 	<!-- Modal1 -->
+	<!-- Modal1 -->
 	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
 		<div class="overlay-modal1 js-hide-modal1"></div>
 
@@ -516,14 +520,14 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</div>
 	</div>
 
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->	
 	{{-- <script src="{{asset('shop_assets/vendor/jquery/jquery-3.2.1.min.js')}}"></script> --}}
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/animsition/js/animsition.min.js')}}"></script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/bootstrap/js/popper.js')}}"></script>
 	<script src="{{asset('shop_assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/select2/select2.min.js')}}"></script>
 	<script>
 		$(".js-select2").each(function(){
@@ -533,18 +537,18 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			});
 		})
 	</script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/daterangepicker/moment.min.js')}}"></script>
 	<script src="{{asset('shop_assets/vendor/daterangepicker/daterangepicker.js')}}"></script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/slick/slick.min.js')}}"></script>
 	<script src="{{asset('shop_assets/js/slick-custom.js')}}"></script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/parallax100/parallax100.js')}}"></script>
 	<script>
-        $('.parallax100').parallax100();
+		$('.parallax100').parallax100();
 	</script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/MagnificPopup/jquery.magnific-popup.min.js')}}"></script>
 	<script>
 		$('.gallery-lb').each(function() { // the containers for all your galleries
@@ -558,9 +562,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		    });
 		});
 	</script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/isotope/isotope.pkgd.min.js')}}"></script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/sweetalert/sweetalert.min.js')}}"></script>
 	<script>
 		$('.js-addwish-b2').on('click', function(e){
@@ -590,16 +594,21 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 		/*---------------------------------------------*/
 
-		$('.js-addcart-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			// $(this).on('click', function(){
-			// 	swal(nameProduct, "is added to cart !", "success");
-			// });
-		});
+		// $('.js-addcart-detail').each(function(){
+		// 	var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+		// 	$(this).on('click', function(){
+		// 		swal(nameProduct, "is added to cart !", "success");
+		// 	});
+		// });
 	</script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
 	<script>
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
 		$('.js-pscroll').each(function(){
 			$(this).css('position','relative');
 			$(this).css('overflow','hidden');
@@ -614,8 +623,30 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			})
 		});
 	</script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{{asset('shop_assets/js/main.js')}}"></script>
-
+	<!--===============================================================================================-->
+	<script type="text/javascript">
+		$('#menuCart').on('click','.header-cart-item-img',function (e) {
+			var key = $(this).attr('data-key');
+			$.ajax({
+				async:false,
+				cache: false,
+				url: '/deleteCart',
+				type: 'post',
+				data: {id: key},
+				success:function(response){
+					$.ajax({
+						url: '/menuCart',
+						type: 'GET',
+						cache: false,
+						success: function(response){
+							$('#menuCart').html(response.output);
+						}
+					});	
+				}
+			});
+		});
+	</script>
 </body>
 </html>

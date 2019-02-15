@@ -45,25 +45,6 @@
                     </div>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Category</label>
-                                    <br>
-                                    <select class="category form-control" name="category"style="width: 100%; height: 100%;" id="detail_add_category">
-                                        @foreach($categories as $cate)
-                                        <option value="{{$cate->id}}"> {{$cate->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Price</label>
-                                    <input type="text" class="form-control" id="prod_add_price" placeholder="Enter Price" required name='price'>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Sale Price</label>
-                                    <input type="text" class="form-control" id="prod_add_sale_price" placeholder="Enter Sale Price" name='sale_price'>
-                                </div>
-                            </div>
                             <div class="col-md-8">
                                 <div id="form-step-0" role="form" data-toggle="validator">
                                     <div class="form-group">
@@ -92,7 +73,25 @@
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Category</label>
+                                    <br>
+                                    <select class="category form-control" name="category"style="width: 100%; height: 100%;" id="prod_add_category">
+                                        @foreach($categories as $cate)
+                                        <option value="{{$cate->id}}"> {{$cate->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Price</label>
+                                    <input type="text" class="form-control" id="prod_add_price" placeholder="Enter Price" required name='price'>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Sale Price</label>
+                                    <input type="text" class="form-control" id="prod_add_sale_price" placeholder="Enter Sale Price" name='sale_price'>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -155,7 +154,7 @@
                                 <div class="form-group">
                                     <label>Category</label>
                                     <br>
-                                    <select class="category form-control" name="category"style="width: 100%; height: 100%;" id="detail_add_category">
+                                    <select class="category form-control" name="category"style="width: 100%; height: 100%;" id="prod_edit_category">
                                         @foreach($categories as $cate)
                                         <option value="{{$cate->id}}"> {{$cate->name}}</option>
                                         @endforeach
@@ -243,16 +242,16 @@
                                     </select>
                                 </div> 
                                 <div id='button_detail'>
-                                   <button type="submit" class="btn btn-primary">Submit</button> 
-                               </div>  
+                                 <button type="submit" class="btn btn-primary">Submit</button> 
+                             </div>  
 
-                           </form> 
-                       </div>
-                   </div>
-                   {{-- hết add --}}
+                         </form> 
+                     </div>
+                 </div>
+                 {{-- hết add --}}
 
-                   {{-- Upload pic --}}
-                   <div class="row">
+                 {{-- Upload pic --}}
+                 <div class="row">
                     <div class="col-sm-10 offset-sm-1">
                         <h2 class="page-heading">Upload your Images <span id="counter"></span></h2>
                         <form method="post" action="/admin/images-save"
@@ -319,7 +318,7 @@
                 {{--End of Dropzone Preview Template--}}
                 <div class="row">
                     <div class="col-md-12">
-                       <div class="table-responsive-sm">
+                     <div class="table-responsive-sm">
                         <table class="table" id="img-table">
                             <thead>
                                 <tr>
@@ -405,14 +404,15 @@
             console.log('id' + id);
             $('#modal-pdetail-add').modal('show');
             // $('#my-dropzone').removeAllFiles(); 
-            Dropzone.forElement('#my-dropzone').removeAllFiles(true) 
+            $("#detail_add_color,#detail_add_size").prop("disabled", false);
+            Dropzone.forElement('#my-dropzone').removeAllFiles(true);
             $.ajax({
                 url: '/admin/images-show/',
                 type: 'get',
                 data: {id:id},
                 success: function(response){
                     // console.log(response);
-                    $('#data_pic').html(response);
+                    $('#data_pic').html(response.output);
                 }
             });
             $('#prod_detail_table').DataTable({
@@ -716,16 +716,16 @@
                  //        $('.err').remove();
                  //    },5000);
                  // }else{
-                   var id = $('.prod_id').val();
-                   console.log('thanhcong');
-                   $('#detail_add_quantity').val('');
-                   toastr.success('them moi thanh cong');
-                   $('.form_status').val('add');
-                   $('#button_detail').html('<button type="submit" class="btn btn-primary">Submit</button> ');
-                   $('#detail_add_quantity').val('');
-                   $("#detail_add_color").val(1).trigger('change');
-                   $("#detail_add_size").val(1).trigger('change');
-                   $('#prod_detail_table').DataTable().ajax.url( '/admin/detail/getdetail/' + id + '/-1').load();
+                     var id = $('.prod_id').val();
+                     console.log('thanhcong');
+                     $('#detail_add_quantity').val('');
+                     toastr.success('Sua thanh cong');
+                     $('.form_status').val('add');
+                     $('#button_detail').html('<button type="submit" class="btn btn-primary">Submit</button> ');
+                     $('#detail_add_quantity').val('');
+                     $("#detail_add_color").val(1).trigger('change');
+                     $("#detail_add_size").val(1).trigger('change');
+                     $('#prod_detail_table').DataTable().ajax.url( '/admin/detail/getdetail/' + id + '/-1').load();
                 // }
                 
             },
@@ -770,6 +770,8 @@
             console.log('newid' + id);
             $('#prod_detail_table').DataTable().ajax.url( '/admin/detail/getdetail/' + id + '/' + $('#btn_id').val() ).load();
             $('#button_detail').html('<button type="submit" class="btn btn-primary">Update</button><a class="btn btn-default" id="detail_cancel">Cancel</a>');
+            // $("#detail_add_color,#detail_add_size").select2({'disabled':readonly});
+            $("#detail_add_color,#detail_add_size").prop("disabled", true);
             e.preventDefault();
             var id = $(this).attr("data-id");
             console.log(id);
@@ -787,6 +789,7 @@
             });
         });
         // hết edit detail
+
         $("#button_detail").on('click','#detail_cancel',function(e){
             var id = $('.prod_id').val();
             $('.form_status').val('add');
@@ -799,17 +802,29 @@
         
         // delete img
         $("#img-table").on('click','.img-delete',function(){
-            var id = $(this).attr('data-id');
+            var id = $(this).attr('data-name');
             if(confirm("Are you sure you want to Delete this data?"))
             {
                 $.ajax({
+                    async: false,
+                    cache:false,
                     url:"{{route('img.destroy')}}",
-                    mehtod:"get",
+                    method:"post",
                     data:{id:id},
                     success:function(data)
                     {
                         toastr.success('Xoa thanh cong');
                         // $('#prod_table').DataTable().ajax.reload();
+                        $.ajax({
+                            url: '/admin/images-show/',
+                            type: 'get',
+                            data: {id:$('.prod_id').val()},
+                            success: function(response){
+                                console.log(response.output);
+                                $('#data_pic').html(response.output);
+                            // $('#data_pic').html('');
+                        }
+                    });
 
                     }
                 })
@@ -820,6 +835,7 @@
             }
         });
         // hết delete img
+
     });
 
 </script>

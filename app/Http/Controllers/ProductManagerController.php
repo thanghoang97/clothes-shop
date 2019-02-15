@@ -29,7 +29,7 @@ class ProductManagerController extends Controller
 			return '
 			<button class="btn btn-primary btn-detail" data-id="'.$product->id.'"​><i class="fa fa-plus-square" aria-hidden="true"></i></button>
 			<a class="btn btn-warning btn-edit" data-id="'.$product->id.'"​><i class="fa fa-pencil" aria-hidden="true"></i></a>
-			<button type="button" class="btn btn-info btn-show" data-id="'.$product->id.'"​><i class="fa fa-eye" aria-hidden="true"></i></button>
+			
 			<button class="btn btn-danger btn-delete" data-id="'.$product->id.'"​><i class="fa fa-times" aria-hidden="true"></i></button>';
 		})->editColumn('price',function($product){
 			return number_format($product->price);

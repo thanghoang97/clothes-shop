@@ -16,10 +16,11 @@ class CreateOrderDetailTable extends Migration
         Schema::create('order_detail', function (Blueprint $table) {
             $table->increments('id');
             $table->string('order_id');
+            $table->string('order_code');
             $table->string('product_detail_id');
             $table->string('product_id');
             $table->integer('quantity');
-            $table->integer('total');
+            $table->integer('sub_total');
             $table->timestamps();
         });
     }

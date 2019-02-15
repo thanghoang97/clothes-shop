@@ -23,21 +23,20 @@ class UploadImagesController extends Controller
      */
     public function show(Request $request)
     {
+        // dd($request->all());
     	$photos = ProductImage::where('product_id',$request->id)->get();
     	// dd($photos);
     	$output= "";
     	foreach($photos as $photo){
     		$output .= 
-    		// '<tr><td><img src="/images/'.$photo->resized_name.'"></td><td>'.$photo->filename.'</td><td>'.$photo->original_name.'</td><td>'.$photo->resized_name.'</td></tr>';
-    		
     		'{{csrf_field()}}
-    		<tr><td><img src="/images/'.$photo->resized_name.'"></td><td>'.$photo->original_name.'</td><td><button class="btn btn-danger img-delete" data-id="'.$photo->id.'"​><i class="fa fa-times" aria-hidden="true"></i></button></td></tr>';
+    		<tr><td><img src="/images/'.$photo->resized_name.'"></td><td>'.$photo->original_name.'</td><td><button class="btn btn-danger img-delete" data-id="'.$photo->id.'"​ data-name="'.$photo->filename.'"><i class="fa fa-times" aria-hidden="true"></i></button></td></tr>';
     	}
     	// dd($output);
-    	echo $output;
+    	// echo $output;
     	// return $output;
     	// echo json_encode($output);
-    	// return response()->json(['data' => $output]);
+    	return response()->json(['output' => $output]);
     }
 
     /**
@@ -58,7 +57,6 @@ class UploadImagesController extends Controller
      */
     public function store(Request $request)
     {
-    	// dd($request->all());
     	$photos = $request->file('file');
 
     	if (!is_array($photos)) {
@@ -102,12 +100,18 @@ class UploadImagesController extends Controller
      */
     public function destroy(Request $request)
     {
-    	$id = $request->id;
-    	// $filename = $request->id;
-    	$filename = ProductImage::find($id)->select('original_name');
-    	// $uploaded_image = ProductImage::where('original_name', basename($filename))->first();
-    	$uploaded_image = ProductImage::where('id', $id)->first();
-
+        // dd($request->id);
+    	// $id = $request->id;
+     //    $filename = ProductImage::find($id)->select('original_name');
+     //    dd($filename);
+     //    // if($filename)
+     //    $uploaded_image = ProductImage::where('id', $id)->first();
+    	$filename = $request->id;
+    	
+    	$uploaded_image = ProductImage::where('filename', basename($filename))->first();
+        if($uploaded_image === null){
+            $uploaded_image = ProductImage::where('original_name', basename($filename))->first();
+        }
     	if (empty($uploaded_image)) {
     		return Response::json(['message' => 'Sorry file does not exist'], 400);
     	}
