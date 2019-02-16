@@ -10,6 +10,7 @@ use App\ProductDetail;
 use App\ProductImage;
 use App\Order;
 use App\OrderDetail;
+use Validator;
 use Gloudemans\Shoppingcart\Facades\Cart;
 class ShopController extends Controller
 {
@@ -62,10 +63,12 @@ class ShopController extends Controller
         // $color = $request->color;
         $color = Color::find($request->color);
         $qty = $request->qty;
+        $name = $product->name;
         // detail de tim id trong table product detail
         $detail = ProductDetail::where([['color_id',$request->color],['size_id',$request->size],['product_id',$id]])->first();
         Cart::add(['id' => $id,'name'=> $product->name,'qty' => $qty,'price'=> $product->price,'options' =>['size' => $size->name,'color' =>$color->name,'img' => $img->filename,'totalQty' => $request->totalQty,'detail_id'=>$detail->id]]);
         // dd(Cart::content());
+        return response()->json(['data' => $name]);
     }
     public function updateCart($id,Request $request)
     {
@@ -149,9 +152,14 @@ class ShopController extends Controller
         $subTotal = Cart::subtotal();
         return response()->json(['output' => $output,'subTotal' => $subTotal]);
     }
-    public function checkOut()
+    public function checkOut(Request $request)
     {
-        return view('shop.checkout');
+        if(Cart::Content()->isNotEmpty()){
+            return view('shop.checkout');
+        }else{
+            $request->session()->flash('error');
+            return redirect()->route('shop.cart');
+        }
     }
     public function infoUser(Request $request)
     {
@@ -174,30 +182,44 @@ class ShopController extends Controller
             // return float
             return (float) $s;
         }
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|min:6|max:40',
+            'address' => 'required|min:6|max:70',
+            'mobile' => 'required|numeric|min:6',
+        ]);
+        $errors = array();
+        if ($validator->fails()) {
+            foreach ($validator->messages()->getMessages() as $value => $messages) {
+                $errors[] = $messages;
+            }
+            return response()->json(['errors'=>$errors]);
+        }else{
+            $order = new Order;
+            $order->code = "HD-".date('YmdHi').substr($request->mobile,-4);
+            $order->name = $request->name;
+            $order->email = $request->email;
+            $order->address = $request->address;
+            $order->mobile = $request->mobile;
+            $order->total = priceToFloat(Cart::total());
+            $order->status = 0; 
+            $order->customer_id = 0; 
+            $order->save();
 
-        $order = new Order;
-        $order->code = "HD-".date('YmdHi').substr($request->mobile,-4);
-        $order->name = $request->name;
-        $order->email = $request->email;
-        $order->address = $request->address;
-        $order->mobile = $request->mobile;
-        $order->total = priceToFloat(Cart::total());
-        $order->status = 0; 
-        $order->customer_id = 0; 
-        $order->save();
-
-        $id = $order->id;
-        foreach (Cart::content() as $value) {
-            $detail = new OrderDetail;
-            $detail->order_id = $id;
-            $detail->order_code = $order->code;
-            $detail->product_id = $value->id;
-            $detail->product_detail_id = $value->options->detail_id;
-            $detail->quantity = $value->qty;
-            $detail->sub_total = $value->total;
-            $detail->save();
+            $id = $order->id;
+            foreach (Cart::content() as $value) {
+                $detail = new OrderDetail;
+                $detail->order_id = $id;
+                $detail->order_code = $order->code;
+                $detail->product_id = $value->id;
+                $detail->product_detail_id = $value->options->detail_id;
+                $detail->quantity = $value->qty;
+                $detail->sub_total = $value->total;
+                $detail->save();
+            }
+            Cart::destroy();
+            $request->session()->flash('ok');
+            // return redirect()->route('shop.index');
         }
-        Cart::destroy();
-        return redirect()->route('shop.index');     
     }
 }

@@ -1,9 +1,10 @@
 @extends('layouts.master')
 @section('header')
-	@include('layouts.header_index')
+@include('layouts.header_index')
 @endsection
 @section('content')
 <!-- Slider -->
+
 <section class="section-slide">
 	<div class="wrap-slick1 rs2-slick1">
 		<div class="slick1">
@@ -263,13 +264,13 @@
 			<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women" >
 				<!-- Block2 -->
 				<div class="block2">
-					<div class="block2-pic hov-img0 label-new" data-label="New" style="height: 333px">
+					<div class="block2-pic hov-img0" style="height: 333px">
 						{{-- <img src="{{asset('shop_assets/images/product-01.jpg')}}" alt="IMG-PRODUCT"> --}}
 						<img src="/images/{{$thumb[$prod->id]}}" alt="IMG-PRODUCT" height="100%">
 
-						<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+						{{-- <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 							Quick View
-						</a>
+						</a> --}}
 					</div>
 
 					<div class="block2-txt flex-w flex-t p-t-14">
@@ -747,7 +748,7 @@
 	</section>
 	<!-- Modal1 -->
 
-	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
+{{-- 	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
 		<div class="overlay-modal1 js-hide-modal1"></div>
 
 		<div class="container">
@@ -878,5 +879,17 @@
 
 			</div>
 		</div>
-	</div>
+	</div> --}}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			@if(session()->has('ok'))
+			swal("Đặt hàng thành công", "Đơn hàng của bạn sẽ được xử lý trong thời gian sớm nhất", "success");
+			@endif
+			@if(Cart::Content()->isNotEmpty())
+				var count = {{Cart::count()}};
+				// console.log(count);
+				$('#count_cart').attr('data-notify',count);
+			@endif	
+		});
+	</script>
 	@endsection

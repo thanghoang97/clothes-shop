@@ -315,6 +315,7 @@ desired effect
         <li><a href="/admin/user"><i class="fa fa-link"></i> <span>User</span></a></li>
         <li><a href="/admin/category"><i class="fa fa-link"></i> <span>Category</span></a></li>
         <li><a href="/admin/product"><i class="fa fa-link"></i> <span>Product</span></a></li>
+        <li><a href="/admin/order"><i class="fa fa-link"></i> <span>Order</span></a></li>
         {{-- <li class="treeview">
           <a ><i class="fa fa-link"></i> <span>Management</span>
             <span class="pull-right-container">

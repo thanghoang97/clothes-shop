@@ -41,7 +41,7 @@
 										<img src="/images/{{$row->options->img}}" alt="IMG" >
 									</div>
 								</td>
-								<td class="column-2">{{$row->name}} - {{$row->options->size}} - {{$row->options->color}} </td>
+								<td class="column-2">{{$row->name}} - {{$row->options->size}} - {{$row->options->color}}</td>
 								<td class="column-3">$ {{$row->price}}</td>
 								<td class="column-4">
 									<div class="wrap-num-product flex-w m-l-auto m-r-0">
@@ -190,6 +190,9 @@
 	</form>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			@if(session()->has('error'))
+				swal("Lỗi", "Xin vui lòng chọn sản phẩm trước khi thanh toán", "warning");
+			@endif
 			function delay(callback, ms) {
 				var timer = 0;
 				return function() {
@@ -234,7 +237,15 @@
 								$('#tr_cart').append(response.output);
 								$('#subTotal').html('$ ' + response.subTotal);
 							}
-						});				
+						});
+						$.ajax({
+							url: '/menuCart',
+							type: 'GET',
+							cache: false,
+							success: function(response){
+								$('#menuCart').html(response.output);
+							}
+						});					
 					},
 				});
 				
@@ -279,7 +290,15 @@
 								$('#subTotal').html('$ ' + response.subTotal);
 
 							}
-						});				
+						});
+						$.ajax({
+							url: '/menuCart',
+							type: 'GET',
+							cache: false,
+							success: function(response){
+								$('#menuCart').html(response.output);
+							}
+						});					
 					},
 				});
 			});
@@ -301,7 +320,15 @@
 								$('#tr_cart').append(response.output);
 								$('#subTotal').html('$ ' + response.subTotal);
 							}
-						});	
+						});
+						$.ajax({
+							url: '/menuCart',
+							type: 'GET',
+							cache: false,
+							success: function(response){
+								$('#menuCart').html(response.output);
+							}
+						});		
 					}
 				});			
 			});
@@ -312,7 +339,10 @@
 					var val = Number($(this).val());
 					if(val >= total){
 						$(this).val(total);
-						console.log('ss');
+						// console.log('ss');
+					}
+					if(Number($(this).val()) < 0){
+						$(this).val(1);
 					}
 				})
 			});
@@ -347,7 +377,15 @@
 								$('#tr_cart').append(response.output);
 								$('#subTotal').html('$ ' + response.subTotal);
 							}
-						});				
+						});
+						$.ajax({
+								url: '/menuCart',
+								type: 'GET',
+								cache: false,
+								success: function(response){
+									$('#menuCart').html(response.output);
+								}
+							});					
 					},
 				});
 			});

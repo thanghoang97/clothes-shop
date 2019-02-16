@@ -15,28 +15,30 @@
 		</span>
 	</div>
 </div>
-<form class="bg0 p-t-75 p-b-85" id="infoUser" action="{{route('shop.infoUser')}}"" method="post">
-	@csrf
+<form class="bg0 p-t-75 p-b-85" id="infoUser" method='post'>
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
 				<div class="m-l-25 m-r--38 m-lr-0-xl">
 					<h3>Check Out</h3>
+					<div class="form-group" id="error" style="padding-top: 15px;">
+
+					</div>
 					<div class="form-group">
 						<label>Name</label>
 						<input type="text" class="form-control" name="name" value="">
 					</div>
 					<div class="form-group">
 						<label>Email</label>
-						<input type="email" class="form-control" name="email" value="">
+						<input type="email" class="form-control" name="email" value="" >
 					</div>
 					<div class="form-group">
 						<label>Address</label>
-						<input type="text" class="form-control" name="address" value="">
+						<input type="text" class="form-control" name="address" value="" >
 					</div>
 					<div class="form-group">
 						<label>Mobile</label>
-						<input type="number" class="form-control" name="mobile" value="">
+						<input type="number" class="form-control" name="mobile" value="" >
 					</div>
 				</div>
 			</div>
@@ -54,7 +56,7 @@
 									<div class="how-itemcart1" style="float: left;clear: both;" data-key={{$key}}>
 										<img src="/images/{{$row->options->img}}" alt="IMG" >
 									</div>
-									<div>{{$row->name}} - {{$row->options->size}} - {{$row->options->color}} </div>
+									<div>{{$row->name}} - {{$row->options->size}} - {{$row->options->color}} - x{{$row->qty}} </div>
 								</div>
 								@endforeach
 							{{-- </table> --}}
@@ -86,5 +88,26 @@
 </div>
 </form>
 <script type="text/javascript">
+	$(document).ready(function() {
+		$('#infoUser').submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url: '{{route('shop.infoUser')}}',
+				type: 'POST',
+				data: $(this).serializeArray(),
+				success: function(response){
+					if(typeof response.errors != 'undefined'){
+						var alert = "";
+						for(var i=0;i<response.errors.length;i++){
+							alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
+						}
+						$('#error').html(alert);
+					}else{
+						window.location.href = '/';
+					}
+				}
+			})		
+		})	
+	});
 </script>
 @endsection

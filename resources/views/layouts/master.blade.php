@@ -210,8 +210,8 @@
 				</ul>
 				
 				<div class="w-full">
-					<div class="header-cart-total w-full p-tb-40">
-						Total: {{Cart::subtotal()}}
+					<div class="header-cart-total w-full p-tb-40" id="menuTotal">
+						{{-- Total: {{Cart::subtotal()}} --}}
 					</div>
 
 					<div class="header-cart-buttons flex-w w-full">
@@ -629,22 +629,54 @@
 	<script type="text/javascript">
 		$('#menuCart').on('click','.header-cart-item-img',function (e) {
 			var key = $(this).attr('data-key');
-			$.ajax({
-				async:false,
-				cache: false,
-				url: '/deleteCart',
-				type: 'post',
-				data: {id: key},
-				success:function(response){
+			// $.ajax({
+			// 	async:false,
+			// 	cache: false,
+			// 	url: '/deleteCart',
+			// 	type: 'post',
+			// 	data: {id: key},
+			// 	success:function(response){
+			// 		$.ajax({
+			// 			url: '/menuCart',
+			// 			type: 'GET',
+			// 			cache: false,
+			// 			success: function(response){
+			// 				$('#menuCart').html(response.output);
+			// 			}
+			// 		});	
+			// 	}
+			// });
+			swal({
+				title: "Chú ý",
+				text: "Bạn có chắc chắn muốn xóa sản phẩm này!",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			})
+			.then((willDelete) => {
+				if (willDelete) {
+					swal("Sản phẩm đã được xóa khỏi giỏ hàng của bạn!", {
+						icon: "success",
+					});
 					$.ajax({
-						url: '/menuCart',
-						type: 'GET',
+						async:false,
 						cache: false,
-						success: function(response){
-							$('#menuCart').html(response.output);
+						url: '/deleteCart',
+						type: 'post',
+						data: {id: key},
+						success:function(response){
+							$('#count_cart').attr('data-notify',{{Cart::count()}});
+							$.ajax({
+								url: '/menuCart',
+								type: 'GET',
+								cache: false,
+								success: function(response){
+									$('#menuCart').html(response.output);
+								}
+							});	
 						}
-					});	
-				}
+					});
+				} 
 			});
 		});
 	</script>

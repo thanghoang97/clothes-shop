@@ -76,7 +76,7 @@
 							<i class="zmdi zmdi-search"></i>
 						</div>
 
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="0" id="count_cart">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
 
@@ -200,3 +200,15 @@
 			</div>
 		</div>
 	</header>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			@if(session()->has('ok'))
+			swal("Đặt hàng thành công", "Đơn hàng của bạn sẽ được xử lý trong thời gian sớm nhất", "success");
+			@endif
+			@if(Cart::Content()->isNotEmpty())
+				var count = {{Cart::count()}};
+				// console.log(count);
+				$('#count_cart').attr('data-notify',count);
+			@endif	
+		});
+	</script>

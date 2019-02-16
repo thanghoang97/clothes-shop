@@ -67,56 +67,34 @@ class ProductManagerController extends Controller
 		}
 
 		// dd($request->all());
-   		// $messages = [
-     //        'required' => 'Trường :attribute bắt buộc nhập.',
-     //        'email' => 'Trường :attribute bắt buộc nhập email.',
-     //        'confirmed' => 'Hai trường mật khẩu đã nhập không giống nhau.',
-     //        'min' => ':attribute Không được nhỏ hơn :min',
-     //    ];
-     //    $validator = Validator::make($request->all(),[
-     //        'name' => 'required|min:5',
-     //        'username' => 'required|unique:users|min:5',
-     //        'email' => 'required|email|unique:users|min:6',
-     //        'password' => 'required|confirmed|min:6',
-     //    ],$messages);
-     //    $errors = array();
-     //    $success = '';
-     //    if($validator->fails()){
-     //        foreach ($validator->messages()->getMessages() as $value => $messages) {
-     //            $errors[] = $messages;
-     //        }
-     //        return response()->json(['errors'=>$errors]);
-     //    }else{
-		$prod = new Product;
-		$prod->code = $request->code;
-		$prod->name = $request->name;
-		$prod->slug = $request->slug.'.'.time();
-		$prod->description = $request->description;
-		$prod->content = $request->content;
-		$prod->sale_price = (float) priceToFloat($request->sale_price);
-		$prod->price =  (float) priceToFloat($request->price);
-		$prod->category_id = $request->category;
-		$prod->admin_created_id = Auth::guard('admin')->user()->id;
-		$prod->save();
-
-		// $prod_id = $prod->id;
-		// $detail = new ProductDetail;
-		// $product_detail = [];
-		
-		// foreach ($request->colors as $color) {
-		// 	foreach ($request->sizes as $size) {
-		// 		$product_detail[] = [
-		// 			'product_id' => $prod_id,
-		// 			'quantity' => floatval(str_replace(',', '.', str_replace('', '', $request->quantity))),
-		// 			'sold' => 0,
-		// 			'color_id' => $color,
-		// 			'size_id' => $size,
-		// 		];
-		// 	}
-		// }
-		// $detail->insert($product_detail); 
-		return response()->json(['product' => $prod]);
-        // }
+		$validator = Validator::make($request->all(),[
+			'code' => 'required|min:4|max:10|unique:products',
+			'name' => 'required|min:4|max:20',
+			'description' => 'required|min:4',
+			'content' => 'required|min:4',
+			'price' => 'required|max:11',
+		]);
+		$errors = array();
+		$success = '';
+		if($validator->fails()){
+			foreach ($validator->messages()->getMessages() as $value => $messages) {
+				$errors[] = $messages;
+			}
+			return response()->json(['errors'=>$errors]);
+		}else{
+			$prod = new Product;
+			$prod->code = $request->code;
+			$prod->name = $request->name;
+			$prod->slug = $request->slug.'.'.time();
+			$prod->description = $request->description;
+			$prod->content = $request->content;
+			$prod->sale_price = (float) priceToFloat($request->sale_price);
+			$prod->price =  (float) priceToFloat($request->price);
+			$prod->category_id = $request->category;
+			$prod->admin_created_id = Auth::guard('admin')->user()->id;
+			$prod->save();
+			return response()->json(['product' => $prod]);
+		}
 	}
 	public function edit(Request $request)
 	{
@@ -156,20 +134,34 @@ class ProductManagerController extends Controller
 			// return float
 			return (float) $s;
 		}
-		$prod = Product::find($id);
-		// dd($request->all());
-		$prod->code = $request->code;
-		$prod->name = $request->name;
-		$prod->slug = $request->slug.'-'.time();
-		$prod->description = $request->description;
-		$prod->content = $request->prod_edit_content;
-		$prod->sale_price = (float) priceToFloat($request->sale_price);
-		$prod->price = (float) priceToFloat($request->price);
-		$prod->category_id = $request->category;
-		$prod->admin_updated_id = Auth::guard('admin')->user()->id;
-		$prod->save();
+		$validator = Validator::make($request->all(),[
+			'code' => 'required|min:4|max:10|unique:users,username,'.$id,
+			'name' => 'required|min:4|max:20',
+			'description' => 'required|min:4',
+			'price' => 'required|max:11',
+		]);
+		$errors = array();
+		$success = '';
+		if($validator->fails()){
+			foreach ($validator->messages()->getMessages() as $value => $messages) {
+				$errors[] = $messages;
+			}
+			return response()->json(['errors'=>$errors]);
+		}else{
+			$prod = Product::find($id);
+			$prod->code = $request->code;
+			$prod->name = $request->name;
+			$prod->slug = $request->slug.'-'.time();
+			$prod->description = $request->description;
+			$prod->content = $request->prod_edit_content;
+			$prod->sale_price = (float) priceToFloat($request->sale_price);
+			$prod->price = (float) priceToFloat($request->price);
+			$prod->category_id = $request->category;
+			$prod->admin_updated_id = Auth::guard('admin')->user()->id;
+			$prod->save();
 
-		return response()->json(['product' => $prod]);
+			return response()->json(['product' => $prod]);
+		}
 	}
 	public function destroy(Request $request)
 	{

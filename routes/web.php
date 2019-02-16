@@ -15,7 +15,12 @@ Route::get('/','ShopController@index')->name('shop.index');
 Route::get('/detail/{slug}','ShopController@detail')->name('shop.detail');
 Route::get('/products','ShopController@products')->name('shop.products');
 Route::post('/add2cart/{id}','ShopController@add2cart')->name('shop.add2cart');
+Route::post('/updateCart/{id}','ShopController@updateCart')->name('shop.add2cart');
 Route::get('/menuCart','ShopController@menuCart')->name('shop.menuCart');
+Route::post('/deleteCart','ShopController@deleteCart')->name('shop.deleteCart');
+Route::get('/getColor','ShopController@getColor')->name('shop.getColor');
+Route::get('/infoCart','ShopController@infoCart')->name('shop.infoCart');
+
 // Route::get('/login', function () {
 //     // return view('layouts.master');
 //     return view('shop.login');
@@ -25,6 +30,8 @@ Route::get('/menuCart','ShopController@menuCart')->name('shop.menuCart');
 //     return view('shop.register');
 // });
 Route::get('/cart','ShopController@cart')->name('shop.cart');
+Route::get('/checkout','ShopController@checkOut')->name('shop.checkOut');
+Route::post('/infoUser','ShopController@infoUser')->name('shop.infoUser');
 
 
 // Route::get('/home', 'HomeController@index')->name('home');
@@ -51,10 +58,7 @@ Route::prefix('/admin')->group(function(){
     //     // dd('xcvxc');
     //     return view('admin_auth.login');
     // });
-    Route::get('/home',function(){
-        // return view('management.listUser');
-       return view('management.homeAdmin');
-   });
+    
     Route::get('login', 'AuthAdmin\LoginController@showLoginForm')->name('login');
     Route::post('login', 'AuthAdmin\LoginController@login');
     Route::post('logout', 'AuthAdmin\LoginController@logout')->name('logout');
@@ -104,6 +108,17 @@ Route::prefix('/admin')->group(function(){
      */
     Route::get('/', 'UploadImagesController@create');
     Route::post('/images-save', 'UploadImagesController@store');
-    Route::get('/images-delete', 'UploadImagesController@destroy')->name('img.destroy');
+    Route::post('/images-delete', 'UploadImagesController@destroy')->name('img.destroy');
     Route::get('/images-show', 'UploadImagesController@show');
+
+    /**
+     * Route Order 
+     */
+    Route::get('order','OrderController@index')->name('order.index');
+    Route::get('order/getdata','OrderController@getOrder')->name('order.getOrder');
+    Route::get('order/checkbill/{id}','OrderController@checkBill')->name('order.checkbill');
+    Route::post('order/delete/{id}','OrderController@deleteCart')->name('order.deleteCart');
+    Route::post('order/confirm/{id}','OrderController@confirmCart')->name('order.confirmCart');
+
+    Route::get('/dashboard','DashboardController@index')->name('db.index');
 });  

@@ -18,7 +18,7 @@ class ProductDetailManagerController extends Controller
 		$categories = Category::all();
 		$colors = Color::all();
 		$sizes = Size::all();
-		$details = ProductDetail::where('product_id',$product_id)->get();
+		$details = ProductDetail::where('product_id',$product_id)->orderBy('id','desc')->get();
 		return Datatables::of($details)
 		->addColumn('action',function($details){
 			return '
@@ -42,26 +42,38 @@ class ProductDetailManagerController extends Controller
 	}
 	public function store(Request $request)
 	{
-		$test = ProductDetail::where([['color_id',$request->color],['size_id',$request->size],['product_id',$request->product_id]])->get();
+		$validator = Validator::make($request->all(),[
+			'quantity' => 'required|max:10',
+		]);
+		$errors = array();
+		$success = '';
+		if($validator->fails()){
+			foreach ($validator->messages()->getMessages() as $value => $messages) {
+				$errors[] = $messages;
+			}
+			return response()->json(['errors'=>$errors]);
+		}else{
+			$test = ProductDetail::where([['color_id',$request->color],['size_id',$request->size],['product_id',$request->product_id]])->first();
 		// dd($test[0]->quantity);
-		if(empty($test[0]))
-		{
-			$detail = new ProductDetail;
-			$detail->product_id = $request->product_id;
-			$detail->quantity = $request->quantity;
-			$detail->size_id = $request->size;
-			$detail->color_id = $request->color;
-			$detail->save();
+			if(empty($test))
+			{
+				$detail = new ProductDetail;
+				$detail->product_id = $request->product_id;
+				$detail->quantity = $request->quantity;
+				$detail->size_id = $request->size;
+				$detail->color_id = $request->color;
+				$detail->save();
+			}
+			if(!empty($test))
+			{
+				$oldQuantity = $test->quantity;
+				$id = $test->id;
+				$detail = ProductDetail::find($id);
+				$detail->quantity = $oldQuantity + $request->quantity;
+				$detail->update();
+			}
+			return response()->json(['detail' => $detail]);
 		}
-		if(!empty($test[0]))
-		{
-			$oldQuantity = $test[0]->quantity;
-			$id = $test[0]->id;
-			$detail = ProductDetail::find($id);
-			$detail->quantity = $oldQuantity + $request->quantity;
-			$detail->update();
-		}
-		return response()->json(['detail' => $detail]);
 	}
 	public function destroy(Request $request)
 	{
@@ -87,12 +99,23 @@ class ProductDetailManagerController extends Controller
 	}
 	public function update(Request $request)
 	{
-		$detail = ProductDetail::find($request->id);
-		$detail->quantity = $request->quantity;
-		$detail->size_id = $request->size;
-		$detail->color_id = $request->color;
-		$detail->save();
-		return response()->json(['detail' => $detail]);
-
+		$validator = Validator::make($request->all(),[
+			'quantity' => 'required|max:10',
+		]);
+		$errors = array();
+		$success = '';
+		if($validator->fails()){
+			foreach ($validator->messages()->getMessages() as $value => $messages) {
+				$errors[] = $messages;
+			}
+			return response()->json(['errors'=>$errors]);
+		}else{
+			$detail = ProductDetail::find($request->id);
+			$detail->quantity = $request->quantity;
+			$detail->size_id = $request->size;
+			$detail->color_id = $request->color;
+			$detail->save();
+			return response()->json(['detail' => $detail]);
+		}
 	}
 }

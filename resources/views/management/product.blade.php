@@ -40,7 +40,7 @@
                 <div class="modal-body">
                     <h2 style="text-align: center;">Product:</h2>
                     @csrf
-                    <div id="user-error-add" style="text-align: center;">
+                    <div id="prod-error-add" style="text-align: center;">
 
                     </div>
                     <div class="container-fluid">
@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Price</label>
-                                    <input type="text" class="form-control" id="prod_add_price" placeholder="Enter Price" required name='price'>
+                                    <input type="text" class="form-control" id="prod_add_price" placeholder="Enter Price" name='price'>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Sale Price</label>
@@ -117,7 +117,7 @@
                 <div class="modal-body">
                     <h2 style="text-align: center;">Product:</h2>
                     @csrf
-                    <div id="user-error-edit" style="text-align: center;">
+                    <div id="prod-error-edit" style="text-align: center;">
 
                     </div>
                     <div class="container-fluid">
@@ -180,7 +180,11 @@
         </div>
     </div>
 </div>
+
+
 {{-- ========================= modal product detail ==================================== --}}
+
+
 <div class="modal" id="modal-pdetail-add">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -196,6 +200,9 @@
                 @csrf
                 <div class="container-fluid">
                     {{-- Hiển thị thông tin và add quantity size color  --}}
+                    <div id="detail-error" style="text-align: center;">
+
+                    </div>
                     <div class="row">
                         <div class="col-md-7">
                             <table id="prod_detail_table" class="">
@@ -513,17 +520,17 @@
                 type: 'POST',
                 data: $(this).serializeArray(),
                 success: function(response){
-                 //    console.log(response);
-                 //    if(typeof response.errors != 'undefined'){
-                 //        var alert = "";
-                 //        for(var i=0;i<response.errors.length;i++){
-                 //         alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
-                 //     }
-                 //     $('#user-error-add').html(alert);
-                 //     setTimeout(function () {
-                 //        $('.err').remove();
-                 //    },5000);
-                 // }else{
+                    console.log(response);
+                    if(typeof response.errors != 'undefined'){
+                        var alert = "";
+                        for(var i=0;i<response.errors.length;i++){
+                         alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
+                     }
+                     $('#prod-error-add').html(alert);
+                     setTimeout(function () {
+                        // $('.err').remove();
+                    },5000);
+                 }else{
                     console.log('thanhcong');
                     $('#prod_add_code').val('');
                     $('#prod_add_name').val('');
@@ -536,7 +543,7 @@
                     $('#add').modal('hide');
                     toastr.success('them moi thanh cong');
                     $('#prod_table').DataTable().ajax.reload();
-                // }
+                }
             },
         });
         });
@@ -596,16 +603,16 @@
               
               data: $(this).serializeArray(),
               success: function (response) {
-               //  if(typeof response.errors != 'undefined'){
-               //      var alert = "";
-               //      for(var i=0;i<response.errors.length;i++){
-               //         alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
-               //     }
-               //     $('#cate-error-edit').html(alert);
-               //     setTimeout(function () {
-               //      $('.err').remove();
-               //  },5000);
-               // }else{
+                if(typeof response.errors != 'undefined'){
+                    var alert = "";
+                    for(var i=0;i<response.errors.length;i++){
+                       alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
+                   }
+                   $('#prod-error-edit').html(alert);
+                   setTimeout(function () {
+                    $('.err').remove();
+                },5000);
+               }else{
                 //thông báo update thành công
                 toastr.success('edit success!')
                     //ẩn modal edit
@@ -621,7 +628,7 @@
                     $('#prod_edit_color').val('');
                     $('#prod_edit_size').val('');
                     $('#prod_table').DataTable().ajax.reload();
-                // }
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 //xử lý lỗi tại đây
@@ -672,22 +679,22 @@
                     // $(this).serializeArray(),                 
                 },
                 success: function(response){
-                 //    console.log(response);
-                 //    if(typeof response.errors != 'undefined'){
-                 //        var alert = "";
-                 //        for(var i=0;i<response.errors.length;i++){
-                 //         alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
-                 //     }
-                 //     $('#user-error-add').html(alert);
-                 //     setTimeout(function () {
-                 //        $('.err').remove();
-                 //    },5000);
-                 // }else{
+                    console.log(response);
+                    if(typeof response.errors != 'undefined'){
+                        var alert = "";
+                        for(var i=0;i<response.errors.length;i++){
+                         alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
+                     }
+                     $('#detail-error').html(alert);
+                     setTimeout(function () {
+                        $('.err').remove();
+                    },5000);
+                 }else{
                     console.log('thanhcong');
                     $('#detail_add_quantity').val('');
                     toastr.success('them moi thanh cong');
                     $('#prod_detail_table').DataTable().ajax.reload();
-                // }
+                }
                 
             },
         });
@@ -705,17 +712,17 @@
                     // $(this).serializeArray(),                 
                 },
                 success: function(response){
-                 //    console.log(response);
-                 //    if(typeof response.errors != 'undefined'){
-                 //        var alert = "";
-                 //        for(var i=0;i<response.errors.length;i++){
-                 //         alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
-                 //     }
-                 //     $('#user-error-add').html(alert);
-                 //     setTimeout(function () {
-                 //        $('.err').remove();
-                 //    },5000);
-                 // }else{
+                    console.log(response);
+                    if(typeof response.errors != 'undefined'){
+                        var alert = "";
+                        for(var i=0;i<response.errors.length;i++){
+                         alert += '<div class="err alert alert-danger">'+response.errors[i]+'</div>';
+                     }
+                     $('#detail-error').html(alert);
+                     setTimeout(function () {
+                        $('.err').remove();
+                    },5000);
+                 }else{
                      var id = $('.prod_id').val();
                      console.log('thanhcong');
                      $('#detail_add_quantity').val('');
@@ -726,7 +733,8 @@
                      $("#detail_add_color").val(1).trigger('change');
                      $("#detail_add_size").val(1).trigger('change');
                      $('#prod_detail_table').DataTable().ajax.url( '/admin/detail/getdetail/' + id + '/-1').load();
-                // }
+                     $("#detail_add_color,#detail_add_size").prop("disabled", false);
+                }
                 
             },
         });
@@ -778,6 +786,7 @@
             $.ajax({
                 url:"{{route('detail.edit')}}",
                 method:'get',
+                async: false,
                 data:{id:btn_id},
                 dataType:'json',
                 success: function (response) {
@@ -798,6 +807,7 @@
             $("#detail_add_color").val(1).trigger('change');
             $("#detail_add_size").val(1).trigger('change');
             $('#prod_detail_table').DataTable().ajax.url( '/admin/detail/getdetail/' + id + '/-1').load();
+            $("#detail_add_color,#detail_add_size").prop("disabled", false);
         });
         
         // delete img

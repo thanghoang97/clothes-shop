@@ -400,12 +400,14 @@
 						totalQty: totalQty,
 					},
 					success: function (response) {
-						$('.js-addcart-detail').each(function(){
-							var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-							$(this).on('click', function(){
-								swal(nameProduct, "is added to cart !", "success");
-							});
-						});
+						// $('.js-addcart-detail').each(function(){
+							// console.log(response);
+							// var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+							// $(this).on('click', function(){
+								swal(response.data,"is added to cart !", "success");
+								$('#count_cart').attr('data-notify',{{Cart::count()}});
+							// });
+						// });
 						$.ajax({
 							url: '/menuCart',
 							type: 'GET',
@@ -418,7 +420,8 @@
 				});
 			}
 			else{
-				alert('Vui lòng chọn size và color');
+				// alert('Vui lòng chọn size và color');
+				swal("Chú ý", "Vui lòng chọn size và color", "warning");
 			}
 		});
 
@@ -446,6 +449,7 @@
 			var qty = $('#color option:selected').attr('data-qty');
 			// alert(qty);
 			$('#qty_rm').html('Quantity: '+qty);
+			$('#quantity').val(1);
 		});
 
 		$('#quantity').keyup(function(event) {
@@ -456,11 +460,21 @@
 			if(Number($(this).val()) >= qty){
 				$('#quantity').val(qty);
 			}
+			if(Number($(this).val()) <= 0){
+				$('#quantity').val(1);
+			}
 		});
 
 		$('.btn-minus').on('click', function(){
 			var numProduct = Number($(this).next().val());
-			if(numProduct > 0) $(this).next().val(numProduct - 1);
+			if(numProduct > 0){
+				// $(this).next().val(numProduct - 1);
+				$('#quantity').val(numProduct - 1);
+			}
+			if(Number($(this).next().val()) <= 0){
+				swal("Error", "Không thể trừ thêm", "error");
+				$('#quantity').val(1);
+			}
 		});
 
 		$('.btn-plus').on('click', function(){
