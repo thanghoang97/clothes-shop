@@ -312,6 +312,7 @@ desired effect
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
         {{-- <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li> --}}
+        <li><a href="/admin/dashboard"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
         <li><a href="/admin/user"><i class="fa fa-link"></i> <span>User</span></a></li>
         <li><a href="/admin/category"><i class="fa fa-link"></i> <span>Category</span></a></li>
         <li><a href="/admin/product"><i class="fa fa-link"></i> <span>Product</span></a></li>
@@ -458,6 +459,7 @@ desired effect
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script type="text/javascript" src="{{asset('drop_zone/dist/dropzone.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/dropzone-config.js')}}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script>
     // Dropzone.autoDiscover = false;
     CKEDITOR.replace( 'content' );

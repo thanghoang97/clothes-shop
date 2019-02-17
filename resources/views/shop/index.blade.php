@@ -8,7 +8,7 @@
 <section class="section-slide">
 	<div class="wrap-slick1 rs2-slick1">
 		<div class="slick1">
-			<div class="item-slick1 bg-overlay1" style="background-image: url({{asset('shop_assets/images/slide-05.jpg')}});" data-thumb="images/thumb-01.jpg" data-caption="Women’s Wear">
+			<div class="item-slick1 bg-overlay1" style="background-image: url({{asset('shop_assets/images/slide-05.jpg')}});" data-thumb="{{asset('shop_assets/images/thumb-01.jpg')}}" data-caption="Women’s Wear">
 				<div class="container h-full">
 					<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 						<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
@@ -32,7 +32,7 @@
 				</div>
 			</div>
 
-			<div class="item-slick1 bg-overlay1" style="background-image: url({{asset('shop_assets/images/slide-06.jpg')}});" data-thumb="images/thumb-02.jpg" data-caption="Men’s Wear">
+			<div class="item-slick1 bg-overlay1" style="background-image: url({{asset('shop_assets/images/slide-06.jpg')}});" data-thumb="{{asset('shop_assets/images/thumb-02.jpg')}}" data-caption="Men’s Wear">
 				<div class="container h-full">
 					<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 						<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
@@ -56,7 +56,7 @@
 				</div>
 			</div>
 
-			<div class="item-slick1 bg-overlay1" style="background-image: url({{asset('shop_assets/images/slide-07.jpg')}});" data-thumb="images/thumb-03.jpg" data-caption="Men’s Wear">
+			<div class="item-slick1 bg-overlay1" style="background-image: url({{asset('shop_assets/images/slide-07.jpg')}});" data-thumb="{{asset('shop_assets/images/thumb-03.jpg')}}" data-caption="Men’s Wear">
 				<div class="container h-full">
 					<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 						<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
@@ -884,6 +884,7 @@
 		$(document).ready(function() {
 			@if(session()->has('ok'))
 			swal("Đặt hàng thành công", "Đơn hàng của bạn sẽ được xử lý trong thời gian sớm nhất", "success");
+
 			@endif
 			@if(Cart::Content()->isNotEmpty())
 				var count = {{Cart::count()}};

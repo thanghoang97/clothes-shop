@@ -58,12 +58,16 @@ class OrderController extends Controller
 		$detail = OrderDetail::where('order_code',$id)->delete();
 		return redirect()->route('order.index');   
 	}
-	public function confirmCart($id)
+	public function confirmCart($id, Request $request)
 	{
 		$details = ProductDetail::all();
 		$ordDetail = OrderDetail::where('order_code',$id)->get();
 		foreach($ordDetail as $ord){
 			foreach($details as $detail){
+				if($detail->quantity < $ord->quantity){
+					$request->session()->flash('error');
+					return redirect()->route('order.index'); 
+				}
 				if($ord->product_detail_id == $detail->id){
 					$detail->quantity = $detail->quantity-$ord->quantity;
 					$detail->sold = $detail->sold + $ord->quantity;

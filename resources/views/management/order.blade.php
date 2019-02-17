@@ -53,6 +53,10 @@
             { "data": "action", orderable:false, searchable: false}
             ]
         });
+        @if(session()->has('error'))
+            swal("Lỗi", "Sản phẩm đã hết hàng", "error");
+        @endif
     });
+
 </script>
 @endsection
